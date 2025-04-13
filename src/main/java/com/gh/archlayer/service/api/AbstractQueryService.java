@@ -4,7 +4,6 @@ import com.gh.archlayer.accessor.api.QueryAccessor;
 import com.gh.archlayer.service.filter.Filter;
 import com.gh.archlayer.service.model.QueryModel;
 import com.gh.archlayer.service.paging.PageRequest;
-import com.gh.archlayer.utils.Tuples;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +29,6 @@ public abstract class AbstractQueryService<T extends QueryModel> implements Quer
 
 	@Override
 	public Collection<T> findAll(final PageRequest pageRequest, final List<Filter<?>> filters) {
-		Tuples.of(pageRequest, filters).t1();
 		return getAccessor().findMany(pageRequest, filters);
 	}
 
