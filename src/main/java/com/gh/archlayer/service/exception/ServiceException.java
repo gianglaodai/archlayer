@@ -146,6 +146,10 @@ public abstract class ServiceException extends RuntimeException {
 		return new ConflictException.ConcurrentModificationException(message, code, params, entityClass, cause);
 	}
 
+	public static NotFoundException newNotFoundException() {
+		return newNotFoundException(null, Map.of(), null, null);
+	}
+
 	public static NotFoundException newNotFoundException(String code, Map<String, String> params, Class<?> entityClass, final String message) {
 		return new NotFoundException(message, code, params, entityClass, null);
 	}

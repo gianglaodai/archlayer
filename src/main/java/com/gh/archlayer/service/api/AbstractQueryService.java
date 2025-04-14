@@ -28,22 +28,22 @@ public abstract class AbstractQueryService<T extends QueryModel> implements Quer
 	}
 
 	@Override
-	public Collection<T> findAll(final PageRequest pageRequest, final List<Filter<?>> filters) {
+	public Collection<T> findAll(final PageRequest pageRequest, final List<? extends Filter<?>> filters) {
 		return getAccessor().findMany(pageRequest, filters);
 	}
 
 	@Override
-	public Collection<T> findByIds(final Collection<Long> ids, final PageRequest pageRequest, final List<Filter<?>> filters) {
+	public Collection<T> findByIds(final Collection<Long> ids, final PageRequest pageRequest, final List<? extends Filter<?>> filters) {
 		return getAccessor().findByIds(ids, pageRequest, filters);
 	}
 
 	@Override
-	public Collection<T> findByUids(final Collection<String> uids, final PageRequest pageRequest, final List<Filter<?>> filters) {
+	public Collection<T> findByUids(final Collection<String> uids, final PageRequest pageRequest, final List<? extends Filter<?>> filters) {
 		return getAccessor().findByUids(uids, pageRequest, filters);
 	}
 
 	@Override
-	public long count(final List<Filter<?>> filters) {
+	public long count(final List<? extends Filter<?>> filters) {
 		return getAccessor().count(filters);
 	}
 }

@@ -11,12 +11,12 @@ import java.util.Optional;
 public interface QueryAccessor<T extends QueryModel> {
 	boolean existsById(long id);
 	boolean existsByUid(String uid);
-	boolean exists(List<Filter<?>> filters);
+	boolean exists(List<? extends Filter<?>> filters);
 	Optional<T> findById(long id);
 	Optional<T> findByUid(String uid);
-	Collection<T> findMany(PageRequest pageRequest, List<Filter<?>> filters);
-	Optional<T> findSingle(List<Filter<?>> filters);
-	Collection<T> findByIds(Collection<Long> ids, PageRequest pageRequest, List<Filter<?>> filters);
-	Collection<T> findByUids(Collection<String> uids, PageRequest pageRequest, List<Filter<?>> filters);
-	long count(List<Filter<?>> filters);
+	Collection<T> findMany(PageRequest pageRequest, List<? extends Filter<?>> filters);
+	Optional<T> findSingle(List<? extends Filter<?>> filters);
+	Collection<T> findByIds(Collection<Long> ids, PageRequest pageRequest, List<? extends Filter<?>> filters);
+	Collection<T> findByUids(Collection<String> uids, PageRequest pageRequest, List<? extends Filter<?>> filters);
+	long count(List<? extends Filter<?>> filters);
 }

@@ -37,7 +37,7 @@ public interface QueryService<T extends QueryModel> {
 	 * @param filters the filters to apply to the query
 	 * @return a collection of entities that match the given filters, subject to the page request
 	 */
-	Collection<T> findAll(PageRequest pageRequest, List<Filter<?>> filters);
+	Collection<T> findAll(PageRequest pageRequest, List<? extends Filter<?>> filters);
 	/**
 	 * Retrieves a collection of entities with the specified IDs,
 	 * applying the given page request and filters.
@@ -47,7 +47,7 @@ public interface QueryService<T extends QueryModel> {
 	 * @param filters the filters to apply to the query
 	 * @return a collection of entities with the specified IDs, subject to the page request and filters
 	 */
-	Collection<T> findByIds(Collection<Long> ids, PageRequest pageRequest, List<Filter<?>> filters);
+	Collection<T> findByIds(Collection<Long> ids, PageRequest pageRequest, List<? extends Filter<?>> filters);
 	/**
 	 * Retrieves a collection of entities with the specified UIDs,
 	 * applying the given page request and filters.
@@ -57,12 +57,12 @@ public interface QueryService<T extends QueryModel> {
 	 * @param filters the filters to apply to the query
 	 * @return a collection of entities with the specified UIDs, subject to the page request and filters
 	 */
-	Collection<T> findByUids(Collection<String> uids, PageRequest pageRequest, List<Filter<?>> filters);
+	Collection<T> findByUids(Collection<String> uids, PageRequest pageRequest, List<? extends Filter<?>> filters);
 	/**
 	 * Counts the number of entities that match the given filters.
 	 *
 	 * @param filters the filters to apply to the query
 	 * @return the number of entities that match the given filters
 	 */
-	long count(List<Filter<?>> filters);
+	long count(List<? extends Filter<?>> filters);
 }

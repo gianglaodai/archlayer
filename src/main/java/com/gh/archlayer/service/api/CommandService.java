@@ -1,8 +1,8 @@
 package com.gh.archlayer.service.api;
 
-import com.gh.archlayer.service.model.Model;
+import com.gh.archlayer.service.model.DataModel;
 
-public interface CommandService<T extends Model> {
+public interface CommandService<T extends DataModel> {
 	/**
 	 * Saves the given entity. If the entity's ID is null, a new entity is created.
 	 * If the entity's ID is not null and exists, the existing entity is updated.
@@ -17,4 +17,6 @@ public interface CommandService<T extends Model> {
 	 * @param id the ID of the entity to be deleted.
 	 */
 	void delete(long id);
+
+	void delete(String uid);
 }
