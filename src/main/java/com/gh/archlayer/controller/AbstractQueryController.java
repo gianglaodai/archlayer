@@ -1,19 +1,19 @@
 package com.gh.archlayer.controller;
 
 import com.gh.archlayer.controller.model.TransferObject;
-import com.gh.archlayer.service.api.DataService;
+import com.gh.archlayer.service.api.QueryService;
 import com.gh.archlayer.service.filter.FilterFactory;
 import com.gh.archlayer.service.model.Auditable;
-import com.gh.archlayer.service.model.DataModel;
 import com.gh.archlayer.service.model.Identifiable;
+import com.gh.archlayer.service.model.QueryModel;
 import com.gh.archlayer.service.paging.PageRequest;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractController<
-    T extends TransferObject & Identifiable & Auditable, M extends DataModel> {
-  public abstract DataService<M> getService();
+public abstract class AbstractQueryController<
+    T extends TransferObject & Identifiable & Auditable, M extends QueryModel> {
+  public abstract QueryService<M> getService();
 
   public abstract TransferObjectMapper<T, M> getMapper();
 
@@ -32,19 +32,10 @@ public abstract class AbstractController<
       final List<String> filters) {
     return getService()
         .findAll(
-            new PageRequest(firstResult, maxResults, PageRequest.parseOrders(rawOrders)),
-            FilterFactory.parseMany(filters))
+            parsePageRequest(firstResult, maxResults, rawOrders), FilterFactory.parseMany(filters))
         .stream()
         .map(getMapper()::toTransferObject)
         .toList();
-  }
-
-  public void delete(final long id) {
-    getService().delete(id);
-  }
-
-  public void delete(final String uid) {
-    getService().delete(uid);
   }
 
   public List<T> findByIds(
@@ -56,7 +47,7 @@ public abstract class AbstractController<
     return getService()
         .findByIds(
             ids,
-            new PageRequest(firstResult, maxResults, PageRequest.parseOrders(rawOrders)),
+            parsePageRequest(firstResult, maxResults, rawOrders),
             FilterFactory.parseMany(filters))
         .stream()
         .map(getMapper()::toTransferObject)
@@ -72,7 +63,7 @@ public abstract class AbstractController<
     return getService()
         .findByUids(
             uids,
-            new PageRequest(firstResult, maxResults, PageRequest.parseOrders(rawOrders)),
+            parsePageRequest(firstResult, maxResults, rawOrders),
             FilterFactory.parseMany(filters))
         .stream()
         .map(getMapper()::toTransferObject)
@@ -82,4 +73,7 @@ public abstract class AbstractController<
   public long count(final List<String> filters) {
     return getService().count(FilterFactory.parseMany(filters));
   }
+
+  public abstract PageRequest parsePageRequest(
+      final int firstResult, final int maxResults, final String rawOrders);
 }
