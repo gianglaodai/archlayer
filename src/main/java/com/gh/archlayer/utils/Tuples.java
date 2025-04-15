@@ -103,6 +103,19 @@ public class Tuples {
     return new Tuple7<>(t1, t2, t3, t4, t5, t6, t7);
   }
 
+  /**
+   * A factory method to create a {@link Tuple8} with eight elements.
+   *
+   * @param t1 the first element
+   * @param t2 the second element
+   * @param t3 the third element
+   * @param t4 the fourth element
+   * @param t5 the fifth element
+   * @param t6 the sixth element
+   * @param t7 the seventh element
+   * @param t8 the eighth element
+   * @return a tuple with six elements
+   */
   public static <T1, T2, T3, T4, T5, T6, T7, T8> Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> of(
       final T1 t1,
       final T2 t2,

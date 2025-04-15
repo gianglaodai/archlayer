@@ -1,7 +1,5 @@
 package com.gh.archlayer.service.filter;
 
-import com.gh.archlayer.service.exception.BadRequestException;
-import com.gh.archlayer.service.exception.ErrorType;
 import com.gh.archlayer.service.filter.impl.BooleanFilter;
 import com.gh.archlayer.service.filter.impl.DecimalFilter;
 import com.gh.archlayer.service.filter.impl.IntegerFilter;
@@ -29,8 +27,6 @@ public class FilterFactory {
   private static Filter<?> parseOne(final String rawFilter) {
     final String[] parts = rawFilter.split(SPLITTER, 3);
     if (parts.length != 3) {
-      throw BadRequestException.newBadRequestException(
-          ErrorType.BAD_REQUEST, null, null, "Invalid filter format: " + rawFilter);
       throw new IllegalArgumentException("Invalid filter format: " + rawFilter);
     }
 
