@@ -1,5 +1,3 @@
 package com.gh.archlayer.controller.model;
 
-public interface TransferObject
-{
-}
+public interface TransferObject {}

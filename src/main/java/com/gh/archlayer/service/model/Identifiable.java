@@ -1,5 +1,7 @@
 package com.gh.archlayer.service.model;
 
 public interface Identifiable {
-	long getId();
+  long getId();
+
+  String getUid();
 }

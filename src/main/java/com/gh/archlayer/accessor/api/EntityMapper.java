@@ -4,6 +4,7 @@ import com.gh.archlayer.accessor.model.PersistenceEntity;
 import com.gh.archlayer.service.model.QueryModel;
 
 public interface EntityMapper<M extends QueryModel, E extends PersistenceEntity> {
-	M toModel(E entity);
-	E toEntity(M model);
+  M toModel(E entity);
+
+  E toEntity(M model);
 }
