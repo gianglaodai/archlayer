@@ -3,7 +3,8 @@ package com.gh.archlayer.utils;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Functions {
+/** Utility class for working with functions. */
+public class FunctionUtils {
   /**
    * Creates a function that takes a value, applies a consumer to it, and returns the original
    * value.

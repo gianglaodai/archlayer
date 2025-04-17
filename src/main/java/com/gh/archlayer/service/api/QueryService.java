@@ -7,6 +7,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This interface defines the contract for a query service, which is responsible for executing
+ * queries on data models.
+ *
+ * @param <T> the type of data model that this service operates on
+ */
 public interface QueryService<T extends QueryModel> {
   /**
    * Checks if an entity with the specified ID exists.

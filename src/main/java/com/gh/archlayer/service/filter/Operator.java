@@ -1,5 +1,10 @@
 package com.gh.archlayer.service.filter;
 
+import com.gh.archlayer.service.exception.BaseServiceException;
+import com.gh.archlayer.service.exception.ServiceExceptionFactory;
+import java.util.Map;
+
+/** Enum representing the different operators that can be used in a filter. */
 public enum Operator {
   EQUALS,
   NOT_EQUALS,
@@ -28,7 +33,7 @@ public enum Operator {
    *
    * @param symbol the string representation of the operator
    * @return the operator
-   * @throws IllegalArgumentException if the string representation is invalid
+   * @throws BaseServiceException if the string representation is invalid
    */
   public static Operator fromSymbol(final String symbol) {
     return switch (symbol) {
@@ -40,7 +45,9 @@ public enum Operator {
       case "<=", "lte" -> Operator.LESS_THAN_OR_EQUAL;
       case "LIKE", "like", "~" -> Operator.LIKE;
       case "NOT_LIKE", "!LIKE", "!like", "not_like", "!~" -> Operator.NOT_LIKE;
-      default -> throw new IllegalArgumentException("Invalid operator symbol: " + symbol);
+      default ->
+          throw ServiceExceptionFactory.newBadRequestException(
+              "filter.invalid_operator", Map.of("symbol", symbol), "Invalid operator: " + symbol);
     };
   }
 }

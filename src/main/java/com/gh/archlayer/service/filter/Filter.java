@@ -1,10 +1,32 @@
 package com.gh.archlayer.service.filter;
 
+/**
+ * This interface defines a filter that can be used to filter data based on a specific condition.
+ * Implementations of this interface must provide a way to determine if a given operator is
+ * supported.
+ *
+ * @param <T> the type of value being filtered
+ */
 public interface Filter<T> {
+  /**
+   * The field that this filter is operating on.
+   *
+   * @return the field
+   */
   String getField();
 
+  /**
+   * Retrieves the value used by this filter.
+   *
+   * @return the value of type T that this filter is using
+   */
   T getValue();
 
+  /**
+   * The operator used by this filter.
+   *
+   * @return the operator
+   */
   Operator getOperator();
 
   /**

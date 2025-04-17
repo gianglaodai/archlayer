@@ -1,5 +1,6 @@
 package com.gh.archlayer.service.exception;
 
+/** Enum representing the different types of errors that can occur in the application. */
 public enum ErrorType {
   BAD_REQUEST(400),
   UNAUTHORIZED(401),

@@ -2,22 +2,32 @@ package com.gh.archlayer.service.api;
 
 import com.gh.archlayer.service.model.DataModel;
 
+/**
+ * This interface defines the contract for a command service, which is responsible for executing
+ * CRUD (Create, Read, Update, Delete) operations on data models.
+ *
+ * @param <T> the type of data model that this service operates on
+ */
 public interface CommandService<T extends DataModel> {
   /**
-   * Saves the given entity. If the entity's ID is null, a new entity is created. If the entity's ID
-   * is not null and exists, the existing entity is updated.
+   * Saves a data model to the data store.
    *
-   * @param entity the entity to be saved.
-   * @return the saved entity.
+   * @param entity the data model to be saved
+   * @return the saved data model
    */
   T save(T entity);
 
   /**
-   * Deletes the entity with the given ID.
+   * Deletes a data model identified by its ID.
    *
-   * @param id the ID of the entity to be deleted.
+   * @param id the ID of the data model to be deleted
    */
   void delete(long id);
 
+  /**
+   * Deletes a data model identified by its UID.
+   *
+   * @param uid the UID of the data model to be deleted
+   */
   void delete(String uid);
 }
