@@ -1,5 +1,7 @@
 package com.gh.archlayer.utils;
 
+import static java.util.List.copyOf;
+import static java.util.List.of;
 import static java.util.Objects.isNull;
 
 import java.util.ArrayList;
@@ -55,12 +57,12 @@ public class CollectionUtils {
       final Collection<? extends T> first, final Collection<? extends T> second) {
     if (isNull(first)) {
       if (isNull(second)) {
-        return List.of();
+        return of();
       }
-      return List.copyOf(second);
+      return copyOf(second);
     }
     if (isNull(second)) {
-      return List.copyOf(first);
+      return copyOf(first);
     }
     final List<T> result = new ArrayList<>(first.size() + second.size());
     result.addAll(first);
@@ -81,12 +83,12 @@ public class CollectionUtils {
   public static <T> List<T> concat(final List<? extends T> first, final List<? extends T> second) {
     if (isNull(first)) {
       if (isNull(second)) {
-        return List.of();
+        return of();
       }
-      return List.copyOf(second);
+      return copyOf(second);
     }
     if (isNull(second)) {
-      return List.copyOf(first);
+      return copyOf(first);
     }
     final List<T> result = new ArrayList<>(first.size() + second.size());
     result.addAll(first);

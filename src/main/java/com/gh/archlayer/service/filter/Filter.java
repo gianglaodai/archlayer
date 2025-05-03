@@ -1,5 +1,7 @@
 package com.gh.archlayer.service.filter;
 
+import com.gh.archlayer.service.exception.ServiceExceptionFactory;
+
 /**
  * This interface defines a filter that can be used to filter data based on a specific condition.
  * Implementations of this interface must provide a way to determine if a given operator is
@@ -50,6 +52,6 @@ public interface Filter<T> {
    * @return a new filter object
    */
   static Filter<?> newFilter(final String field, final String rawValue, final Operator operator) {
-    throw new UnsupportedOperationException("Not implemented");
+    throw ServiceExceptionFactory.newBadRequestException(null, null, null);
   }
 }
