@@ -11,6 +11,7 @@ import java.util.List;
  */
 public record PageRequest(int firstResult, int maxResults, List<Order> orders) {
   private static final String SPLITTER = ",";
+  public static final PageRequest DEFAULT = new PageRequest(0, 0, List.of());
 
   /**
    * Retrieves the index of the first result to return from the query, relative to the entire
