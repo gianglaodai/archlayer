@@ -73,9 +73,7 @@ public abstract class AbstractDataService<T extends DataModel> extends AbstractQ
   @Override
   public T save(final T entity) {
     beforeSave(entity);
-
     final T model = getAccessor().save(entity);
-
     afterSave(model);
     return model;
   }

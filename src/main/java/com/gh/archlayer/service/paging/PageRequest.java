@@ -1,19 +1,26 @@
 package com.gh.archlayer.service.paging;
 
+import static java.util.Arrays.stream;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import java.util.List;
 
 /**
  * Represents a page request, which includes the first result, maximum results, and ordering
  * information.
  */
-public interface PageRequest {
+public record PageRequest(int firstResult, int maxResults, List<Order> orders) {
+  private static final String SPLITTER = ",";
+
   /**
    * Retrieves the index of the first result to return from the query, relative to the entire
    * dataset. A value of 0 will return the first result, 1 the second, and so on.
    *
    * @return The index of the first result to return.
    */
-  int getFirstResult();
+  public int getFirstResult() {
+    return firstResult;
+  }
 
   /**
    * Retrieves the maximum number of results to return from the query. A value of 0 is treated as
@@ -21,7 +28,9 @@ public interface PageRequest {
    *
    * @return The maximum number of results to return from the query.
    */
-  int getMaxResults();
+  public int getMaxResults() {
+    return maxResults;
+  }
 
   /**
    * Retrieves the list of orders to apply to the query, which will be used to order the results.
@@ -30,5 +39,24 @@ public interface PageRequest {
    *
    * @return The list of orders to apply to the query.
    */
-  List<Order> getOrders();
+  public List<Order> getOrders() {
+    return orders;
+  }
+
+  /**
+   * Parses the given page request attributes into a {@link PageRequest}.
+   *
+   * @param firstResult the first result to include in the page
+   * @param maxResults the maximum number of results to include in the page
+   * @param rawOrders the raw orders string
+   * @return a {@link PageRequest} constructed from the given page request attributes
+   */
+  public static PageRequest parse(
+      final int firstResult, final int maxResults, final String rawOrders) {
+    if (isBlank(rawOrders)) {
+      return new PageRequest(firstResult, maxResults, List.of());
+    }
+    return new PageRequest(
+        firstResult, maxResults, stream(rawOrders.split(SPLITTER)).map(Order::parse).toList());
+  }
 }

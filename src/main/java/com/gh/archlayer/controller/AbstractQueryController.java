@@ -3,7 +3,6 @@ package com.gh.archlayer.controller;
 import com.gh.archlayer.controller.model.TransferObject;
 import com.gh.archlayer.service.api.QueryService;
 import com.gh.archlayer.service.filter.FilterFactory;
-import com.gh.archlayer.service.model.Auditable;
 import com.gh.archlayer.service.model.Identifiable;
 import com.gh.archlayer.service.model.QueryModel;
 import com.gh.archlayer.service.paging.PageRequest;
@@ -19,7 +18,7 @@ import java.util.Optional;
  * @param <M> the type of query model
  */
 public abstract class AbstractQueryController<
-    T extends TransferObject & Identifiable & Auditable, M extends QueryModel> {
+    T extends TransferObject & Identifiable, M extends QueryModel> {
   /**
    * Retrieves the query service associated with this controller.
    *
@@ -71,7 +70,7 @@ public abstract class AbstractQueryController<
       final List<String> filters) {
     return getService()
         .findAll(
-            parsePageRequest(firstResult, maxResults, rawOrders), FilterFactory.parseMany(filters))
+            PageRequest.parse(firstResult, maxResults, rawOrders), FilterFactory.parseMany(filters))
         .stream()
         .map(getMapper()::toTransferObject)
         .toList();
@@ -98,7 +97,7 @@ public abstract class AbstractQueryController<
     return getService()
         .findByIds(
             ids,
-            parsePageRequest(firstResult, maxResults, rawOrders),
+            PageRequest.parse(firstResult, maxResults, rawOrders),
             FilterFactory.parseMany(filters))
         .stream()
         .map(getMapper()::toTransferObject)
@@ -126,7 +125,7 @@ public abstract class AbstractQueryController<
     return getService()
         .findByUids(
             uids,
-            parsePageRequest(firstResult, maxResults, rawOrders),
+            PageRequest.parse(firstResult, maxResults, rawOrders),
             FilterFactory.parseMany(filters))
         .stream()
         .map(getMapper()::toTransferObject)
@@ -142,15 +141,4 @@ public abstract class AbstractQueryController<
   public long count(final List<String> filters) {
     return getService().count(FilterFactory.parseMany(filters));
   }
-
-  /**
-   * Parses the given page request attributes into a {@link PageRequest}.
-   *
-   * @param firstResult the first result to include in the page
-   * @param maxResults the maximum number of results to include in the page
-   * @param rawOrders the raw orders string
-   * @return a {@link PageRequest} constructed from the given page request attributes
-   */
-  public abstract PageRequest parsePageRequest(
-      final int firstResult, final int maxResults, final String rawOrders);
 }
