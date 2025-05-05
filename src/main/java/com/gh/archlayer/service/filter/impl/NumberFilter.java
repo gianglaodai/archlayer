@@ -7,7 +7,7 @@ public abstract class NumberFilter<T extends Number & Comparable<? super T>>
     extends ComparableFilter<T> {
 
   /** Constructor. */
-  public NumberFilter(final String field, final T value, final Operator operator) {
-    super(field, value, operator);
+  public NumberFilter(final String field, final Operator operator, final T value) {
+    super(field, operator, value);
   }
 }

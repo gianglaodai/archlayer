@@ -64,7 +64,10 @@ public abstract class AbstractQueryService<T extends QueryModel> implements Quer
    */
   @Override
   public Collection<T> findAll(
-      final PageRequest pageRequest, final List<? extends Filter<?>> filters) {
+      final Collection<Long> ids,
+      final Collection<String> uids,
+      final PageRequest pageRequest,
+      final List<? extends Filter<?>> filters) {
     return getAccessor().findMany(pageRequest, filters);
   }
 

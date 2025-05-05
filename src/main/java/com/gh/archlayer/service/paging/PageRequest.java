@@ -1,6 +1,7 @@
 package com.gh.archlayer.service.paging;
 
 import static java.util.Arrays.stream;
+import static java.util.Objects.*;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.List;
@@ -53,11 +54,14 @@ public record PageRequest(int firstResult, int maxResults, List<Order> orders) {
    * @return a {@link PageRequest} constructed from the given page request attributes
    */
   public static PageRequest parse(
-      final int firstResult, final int maxResults, final String rawOrders) {
+      final Integer firstResult, final Integer maxResults, final String rawOrders) {
     if (isBlank(rawOrders)) {
-      return new PageRequest(firstResult, maxResults, List.of());
+      return new PageRequest(
+          isNull(firstResult) ? 0 : firstResult, isNull(maxResults) ? 0 : maxResults, List.of());
     }
     return new PageRequest(
-        firstResult, maxResults, stream(rawOrders.split(SPLITTER)).map(Order::parse).toList());
+        isNull(firstResult) ? 0 : firstResult,
+        isNull(maxResults) ? 0 : maxResults,
+        stream(rawOrders.split(SPLITTER)).map(Order::parse).toList());
   }
 }

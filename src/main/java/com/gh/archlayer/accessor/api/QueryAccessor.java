@@ -64,6 +64,19 @@ public interface QueryAccessor<M extends QueryModel> {
   Collection<M> findMany(PageRequest pageRequest, List<? extends Filter<?>> filters);
 
   /**
+   * Retrieves a collection of data models that match the given filters and page request.
+   *
+   * @param pageRequest the page request that specifies pagination and ordering
+   * @param filters the filters to apply to the query
+   * @return a collection of data models that match the given filters, subject to the page request
+   */
+  Collection<M> findMany(
+      Collection<Long> ids,
+      Collection<String> uids,
+      PageRequest pageRequest,
+      List<? extends Filter<?>> filters);
+
+  /**
    * Retrieves a single data model that matches the given filters.
    *
    * @param filters the filters to apply to the query

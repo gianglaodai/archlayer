@@ -7,8 +7,8 @@ import com.gh.archlayer.service.filter.Operator;
 public class BooleanFilter extends AbstractFilter<Boolean> {
 
   /** Constructors. */
-  public BooleanFilter(final String field, final Boolean value, final Operator operator) {
-    super(field, value, operator);
+  public BooleanFilter(final String field, final Operator operator, final Boolean value) {
+    super(field, operator, value);
   }
 
   /**
@@ -17,15 +17,14 @@ public class BooleanFilter extends AbstractFilter<Boolean> {
    * <p>This implementation supports the following operators:
    *
    * <ul>
-   *   <li>{@link Operator#EQUALS}
-   *   <li>{@link Operator#NOT_EQUALS}
+   *   <li>{@link Operator#IS}
    * </ul>
    *
    * @param operator the operator to check
    * @return true if the given operator is supported, false otherwise
    */
   public static boolean supportOperator(final Operator operator) {
-    return operator == Operator.EQUALS || operator == Operator.NOT_EQUALS;
+    return operator == Operator.IS;
   }
 
   /**
@@ -46,12 +45,12 @@ public class BooleanFilter extends AbstractFilter<Boolean> {
    * <p>This method parses the raw value into a {@link Boolean} and returns a new filter instance.
    *
    * @param field Field to filter on.
-   * @param rawValue Raw value to filter for, which will be parsed into a {@link Boolean}.
    * @param operator Operator defining how the value should be compared.
+   * @param rawValue Raw value to filter for, which will be parsed into a {@link Boolean}.
    * @return A new {@link BooleanFilter} instance.
    */
   public static Filter<?> newFilter(
-      final String field, final String rawValue, final Operator operator) {
-    return new BooleanFilter(field, Boolean.parseBoolean(rawValue), operator);
+      final String field, final Operator operator, final String rawValue) {
+    return new BooleanFilter(field, operator, parseValue(rawValue));
   }
 }

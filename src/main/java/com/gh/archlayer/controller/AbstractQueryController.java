@@ -64,13 +64,18 @@ public abstract class AbstractQueryController<
    * @return a list of transfer objects that match the given filters, subject to the page request
    */
   public List<T> findAll(
-      final int firstResult,
-      final int maxResults,
+      final Collection<Long> ids,
+      final Collection<String> uids,
+      final Integer firstResult,
+      final Integer maxResults,
       final String rawOrders,
       final List<String> filters) {
     return getService()
         .findAll(
-            PageRequest.parse(firstResult, maxResults, rawOrders), FilterFactory.parseMany(filters))
+            ids,
+            uids,
+            PageRequest.parse(firstResult, maxResults, rawOrders),
+            FilterFactory.parseMany(filters))
         .stream()
         .map(getMapper()::toTransferObject)
         .toList();

@@ -9,8 +9,8 @@ public class LocalDateTimeFilter extends ComparableFilter<LocalDateTime> {
 
   /** Constructor. */
   public LocalDateTimeFilter(
-      final String field, final LocalDateTime value, final Operator operator) {
-    super(field, value, operator);
+      final String field, final Operator operator, final LocalDateTime value) {
+    super(field, operator, value);
   }
 
   /**
@@ -41,12 +41,12 @@ public class LocalDateTimeFilter extends ComparableFilter<LocalDateTime> {
    * Create a new {@link LocalDateTimeFilter} from given field, raw value, and operator.
    *
    * @param field Field to filter on.
-   * @param rawValue Value to filter for.
    * @param operator Operator defining how the value should be compared.
+   * @param rawValue Value to filter for.
    * @return A new {@link LocalDateTimeFilter} instance.
    */
   public static Filter<?> newFilter(
-      final String field, final String rawValue, final Operator operator) {
-    return new LocalDateTimeFilter(field, LocalDateTime.parse(rawValue), operator);
+      final String field, final Operator operator, final String rawValue) {
+    return new LocalDateTimeFilter(field, operator, parseValue(rawValue));
   }
 }

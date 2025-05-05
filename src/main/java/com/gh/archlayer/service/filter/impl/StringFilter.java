@@ -7,8 +7,8 @@ import com.gh.archlayer.service.filter.Operator;
 public class StringFilter extends AbstractFilter<String> {
 
   /** Constructor. */
-  public StringFilter(final String field, final String value, final Operator operator) {
-    super(field, value, operator);
+  public StringFilter(final String field, final Operator operator, final String value) {
+    super(field, operator, value);
   }
 
   /**
@@ -49,12 +49,12 @@ public class StringFilter extends AbstractFilter<String> {
    * Creates a new {@link StringFilter} for the given field, raw value, and operator.
    *
    * @param field Field to filter on.
-   * @param rawValue Value to filter for.
    * @param operator Operator defining how the value should be compared.
+   * @param rawValue Value to filter for.
    * @return A new {@link StringFilter} instance.
    */
   public static Filter<?> newFilter(
-      final String field, final String rawValue, final Operator operator) {
-    return new StringFilter(field, rawValue, operator);
+      final String field, final Operator operator, final String rawValue) {
+    return new StringFilter(field, operator, rawValue);
   }
 }

@@ -8,8 +8,8 @@ import java.math.BigInteger;
 public class IntegerFilter extends NumberFilter<BigInteger> {
 
   /** Constructor. */
-  public IntegerFilter(final String field, final BigInteger value, final Operator operator) {
-    super(field, value, operator);
+  public IntegerFilter(final String field, final Operator operator, final BigInteger value) {
+    super(field, operator, value);
   }
 
   /**
@@ -40,12 +40,12 @@ public class IntegerFilter extends NumberFilter<BigInteger> {
    * Creates a new {@link IntegerFilter} for the given field, raw value, and operator.
    *
    * @param field Field to filter on.
-   * @param rawValue Value to filter for.
    * @param operator Operator defining how the value should be compared.
+   * @param rawValue Value to filter for.
    * @return A new {@link IntegerFilter} instance.
    */
   public static Filter<?> newFilter(
-      final String field, final String rawValue, final Operator operator) {
-    return new IntegerFilter(field, new BigInteger(rawValue), operator);
+      final String field, final Operator operator, final String rawValue) {
+    return new IntegerFilter(field, operator, parseValue(rawValue));
   }
 }

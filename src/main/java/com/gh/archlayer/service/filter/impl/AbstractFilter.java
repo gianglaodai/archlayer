@@ -10,7 +10,7 @@ public abstract class AbstractFilter<T> implements Filter<T> {
   private final Operator operator;
 
   /** Constructor. */
-  public AbstractFilter(final String field, final T value, final Operator operator) {
+  public AbstractFilter(final String field, final Operator operator, final T value) {
     this.field = field;
     this.value = value;
     this.operator = operator;

@@ -4,12 +4,16 @@ import com.gh.archlayer.service.exception.BaseServiceException;
 import com.gh.archlayer.service.exception.ServiceExceptionFactory;
 import com.gh.archlayer.service.filter.impl.BooleanFilter;
 import com.gh.archlayer.service.filter.impl.DecimalFilter;
+import com.gh.archlayer.service.filter.impl.InDecimalFilter;
+import com.gh.archlayer.service.filter.impl.InIntegerFilter;
+import com.gh.archlayer.service.filter.impl.InStringFilter;
 import com.gh.archlayer.service.filter.impl.IntegerFilter;
 import com.gh.archlayer.service.filter.impl.LocalDateFilter;
 import com.gh.archlayer.service.filter.impl.LocalDateTimeFilter;
 import com.gh.archlayer.service.filter.impl.StringFilter;
 import com.gh.archlayer.utils.StringFormatter;
 import java.lang.reflect.InvocationTargetException;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -20,11 +24,14 @@ public class FilterFactory {
   private static final String SPLITTER = ":";
   private static final List<Class<? extends Filter<?>>> SUPPORTED_FILTERS =
       List.of(
+          InIntegerFilter.class,
           IntegerFilter.class,
+          InDecimalFilter.class,
           DecimalFilter.class,
+          BooleanFilter.class,
           LocalDateFilter.class,
           LocalDateTimeFilter.class,
-          BooleanFilter.class,
+          InStringFilter.class,
           StringFilter.class);
   private static final Logger log = LoggerFactory.getLogger(FilterFactory.class);
 
@@ -53,17 +60,24 @@ public class FilterFactory {
    *     if no suitable filter is found, or if reflection fails
    */
   private static Filter<?> parseOne(final String rawFilter) {
-    final String[] parts = rawFilter.split(SPLITTER, 3);
+    final boolean forceString = rawFilter.endsWith(":s");
+    final String[] parts;
+    if (forceString) {
+      parts = rawFilter.substring(0, rawFilter.length() - 2).split(SPLITTER, 3);
+    } else {
+      parts = rawFilter.split(SPLITTER, 3);
+    }
+
     if (parts.length != 3) {
       throw ServiceExceptionFactory.newBadRequestException(
           "filter.invalid_format",
           Map.of("raw", rawFilter),
-          "Invalid filter format, expected format: field:value:operator");
+          "Invalid filter format, expected format: field:value:operator:[s]");
     }
 
     final String field = parts[0];
-    final String rawValue = parts[1];
-    final String rawOperator = parts[2];
+    final String rawOperator = parts[1];
+    final String rawValue = parts[2];
 
     final Operator operator;
     try {
@@ -75,14 +89,33 @@ public class FilterFactory {
           "Unknown operator symbol: " + rawOperator);
     }
 
+    if (forceString) {
+      if (InStringFilter.supportOperator(operator)) {
+        return InStringFilter.newFilter(field, operator, rawValue);
+      }
+      if (!StringFilter.supportOperator(operator)) {
+        throw ServiceExceptionFactory.newBadRequestException(
+            "filter.unsupported_filter",
+            Map.of("field", field, "operator", operator.name(), "value", rawValue, "s", true),
+            "No suitable filter found for given input.");
+      }
+      return StringFilter.newFilter(field, operator, rawValue);
+    }
+
     for (final Class<? extends Filter<?>> filterClass : SUPPORTED_FILTERS) {
       try {
+        final var supportOperatorMethod = filterClass.getMethod("supportOperator", Operator.class);
+        final boolean isSupported = (boolean) supportOperatorMethod.invoke(null, operator);
+        if (!isSupported) {
+          continue;
+        }
         return (Filter<?>)
             filterClass
-                .getMethod("newFilter", String.class, String.class, Operator.class)
-                .invoke(null, field, rawValue, operator);
+                .getMethod("newFilter", String.class, Operator.class, String.class)
+                .invoke(null, field, operator, rawValue);
       } catch (final InvocationTargetException e) {
-        if (e.getCause() instanceof IllegalArgumentException) {
+        if (e.getCause() instanceof IllegalArgumentException
+            || e.getCause() instanceof DateTimeParseException) {
           log.debug(
               "Filter {} rejected input field={}, value={}, operator={}",
               filterClass.getSimpleName(),

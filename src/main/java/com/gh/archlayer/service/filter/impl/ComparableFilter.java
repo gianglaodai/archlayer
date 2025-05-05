@@ -6,8 +6,8 @@ import com.gh.archlayer.service.filter.Operator;
 public abstract class ComparableFilter<T extends Comparable<? super T>> extends AbstractFilter<T> {
 
   /** Constructor. */
-  public ComparableFilter(final String field, final T value, final Operator operator) {
-    super(field, value, operator);
+  public ComparableFilter(final String field, final Operator operator, final T value) {
+    super(field, operator, value);
   }
 
   /**

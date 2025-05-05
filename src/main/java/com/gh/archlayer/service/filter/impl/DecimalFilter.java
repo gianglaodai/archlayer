@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 public class DecimalFilter extends NumberFilter<BigDecimal> {
 
   /** Constructor. */
-  public DecimalFilter(final String field, final BigDecimal value, final Operator operator) {
-    super(field, value, operator);
+  public DecimalFilter(final String field, final Operator operator, final BigDecimal value) {
+    super(field, operator, value);
   }
 
   /**
@@ -43,12 +43,12 @@ public class DecimalFilter extends NumberFilter<BigDecimal> {
    * instance.
    *
    * @param field Field to filter on.
-   * @param rawValue Raw value to filter for, which will be parsed into a {@link BigDecimal}.
    * @param operator Operator defining how the value should be compared.
+   * @param rawValue Raw value to filter for, which will be parsed into a {@link BigDecimal}.
    * @return A new {@link DecimalFilter} instance.
    */
   public static Filter<?> newFilter(
-      final String field, final String rawValue, final Operator operator) {
-    return new DecimalFilter(field, new BigDecimal(rawValue), operator);
+      final String field, final Operator operator, final String rawValue) {
+    return new DecimalFilter(field, operator, parseValue(rawValue));
   }
 }
